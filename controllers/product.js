@@ -17,7 +17,7 @@ exports.create = async(req,res) => {
     }
 }
 
-// Read Products
+// Read All Products
 exports.list = async(req,res) => {
     try {
         const lisProducts = await Products.find({}).exec()
@@ -28,10 +28,21 @@ exports.list = async(req,res) => {
         res.status(400).send(`Server Read error: ${error.message}`)
     }
 }
+
+// Read Product from id
 exports.read = async(req,res) => {
     const id = req.params.id
-    res.send(`Hello from product controller readed! ${id}`)
+    try {
+        const readProductById = await Products.findOne({_id: id}).exec()
+        res.json(readProductById)
+    }
+    catch (error){
+        console.log(error)
+        res.status(400).send(`Server Read from id error: ${error.message}`)
+    }
 }
+
+
 exports.update = async(req,res) => {
     const id = req.params.id
     res.send(`Hello from product controller updated! ${id}`)
