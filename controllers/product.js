@@ -1,11 +1,23 @@
+/// model
+
+const Products = require('../models/Product')
+
 /// controller
-
-
- 
-
 exports.create = async(req,res) => {
-    res.send("Hello from product controller created!")
+    const data = req.body
+    try {
+        const newProducts = await new Products(data).save()
+        res.json(newProducts)
+    }
+    catch (error) {
+        console.log(error)
+        res.status(400).send(`Server error: ${error.message}`)
+    }
 }
+
+
+
+
 exports.list = async(req,res) => {
     res.send("Hello from product controller listed!")
 }
@@ -19,7 +31,7 @@ exports.update = async(req,res) => {
 }
 exports.remove = async(req,res) => {
     const id = req.params.id
-    res.send(`Hello from product controller deleted! ${id}`)
+    res.send(`Hello from product controller readed! ${id}`)
 }
 
 
