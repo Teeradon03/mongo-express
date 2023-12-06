@@ -15,6 +15,8 @@ const connectDB = require('./configs/db')
 const {readdirSync} = require('fs')
 
 app.use(morgan('dev'))
+app.use(bodyParser.json({ limit: "10mb" }))
+app.use(bodyParser.urlencoded({ extended: true}))
 
 connectDB()
 
