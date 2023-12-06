@@ -42,11 +42,24 @@ exports.read = async(req,res) => {
     }
 }
 
-
+// Update Product from id
 exports.update = async(req,res) => {
     const id = req.params.id
-    res.send(`Hello from product controller updated! ${id}`)
+    const body = req.body
+
+    try{
+        const updateProductById = await Products.findOneAndUpdate({_id: id}, body, {new: true}).exec()
+        res.json(updateProductById)
+
+    }
+    catch(error){
+        console.log(error)
+        res.status(400).send(`Server Update from id error: ${error.message}`)
+    }
+    
 }
+
+
 exports.remove = async(req,res) => {
     const id = req.params.id
     res.send(`Hello from product controller readed! ${id}`)
