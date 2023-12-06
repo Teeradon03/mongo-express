@@ -3,6 +3,8 @@
 const Products = require('../models/Product')
 
 /// controller
+
+// Create Product
 exports.create = async(req,res) => {
     const data = req.body
     try {
@@ -11,15 +13,20 @@ exports.create = async(req,res) => {
     }
     catch (error) {
         console.log(error)
-        res.status(400).send(`Server error: ${error.message}`)
+        res.status(400).send(`Server Create error: ${error.message}`)
     }
 }
 
-
-
-
+// Read Products
 exports.list = async(req,res) => {
-    res.send("Hello from product controller listed!")
+    try {
+        const lisProducts = await Products.find({}).exec()
+        res.json(lisProducts)
+    }
+    catch (error){
+        console.log(error)
+        res.status(400).send(`Server Read error: ${error.message}`)
+    }
 }
 exports.read = async(req,res) => {
     const id = req.params.id
