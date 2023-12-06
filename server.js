@@ -8,9 +8,16 @@ const morgan = require('morgan');
 const PORT = 1500
 const app = express();
 
+// db
+const connectDB = require('./configs/db')
+
+
 const {readdirSync} = require('fs')
 
 app.use(morgan('dev'))
+
+connectDB()
+
 
 readdirSync('./routes').map((r) => app.use('/api', require('./routes/' + r)))
 
