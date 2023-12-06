@@ -1,68 +1,77 @@
 /// model
 
-const Products = require('../models/Product')
+const Products = require("../models/Product");
 
 /// controller
 
 // Create Product
-exports.create = async(req,res) => {
-    const data = req.body
+exports.create = async (req, res) => {
+    const data = req.body;
     try {
-        const newProducts = await new Products(data).save()
-        res.json(newProducts)
+        const newProducts = await new Products(data).save();
+        res.json(newProducts);
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(`Server Create error: ${error.message}`);
     }
-    catch (error) {
-        console.log(error)
-        res.status(400).send(`Server Create error: ${error.message}`)
-    }
-}
+};
 
 // Read All Products
-exports.list = async(req,res) => {
+exports.list = async (req, res) => {
     try {
-        const lisProducts = await Products.find({}).exec()
-        res.json(lisProducts)
+        const lisProducts = await Products.find({}).exec();
+        res.json(lisProducts);
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(`Server Read error: ${error.message}`);
     }
-    catch (error){
-        console.log(error)
-        res.status(400).send(`Server Read error: ${error.message}`)
-    }
-}
+};
 
 // Read Product from id
-exports.read = async(req,res) => {
-    const id = req.params.id
+exports.read = async (req, res) => {
+    const id = req.params.id;
     try {
-        const readProductById = await Products.findOne({_id: id}).exec()
-        res.json(readProductById)
+        const readProductById = await Products.findOne({ _id: id }).exec();
+        res.json(readProductById);
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(`Server Read from id error: ${error.message}`);
     }
-    catch (error){
-        console.log(error)
-        res.status(400).send(`Server Read from id error: ${error.message}`)
-    }
-}
+};
 
 // Update Product from id
-exports.update = async(req,res) => {
-    const id = req.params.id
-    const body = req.body
+exports.update = async (req, res) => {
+    const id = req.params.id;
+    const body = req.body;
 
-    try{
-        const updateProductById = await Products.findOneAndUpdate({_id: id}, body, {new: true}).exec()
-        res.json(updateProductById)
-
+    try {
+        const updateProductById = await Products.findOneAndUpdate(
+            { _id: id },
+            body,
+            { new: true }
+        ).exec();
+        res.json({
+            message: "Product Updated",
+            data: updateProductById
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(`Server Update from id error: ${error.message}`);
     }
-    catch(error){
-        console.log(error)
-        res.status(400).send(`Server Update from id error: ${error.message}`)
+};
+
+// Delete Product from id
+exports.remove = async (req, res) => {
+    const id = req.params.id;
+    try {
+        const deleteProductById = await Products.findByIdAndDelete({_id: id}).exec()
+        res.json({
+            message: "Product Deleted",
+            data: deleteProductById
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(`Server Delete from id error: ${error.message}`);
     }
-    
-}
-
-
-exports.remove = async(req,res) => {
-    const id = req.params.id
-    res.send(`Hello from product controller readed! ${id}`)
-}
-
-
+};
