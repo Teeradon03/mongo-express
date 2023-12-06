@@ -8,17 +8,9 @@ const morgan = require('morgan');
 const PORT = 1500
 const app = express();
 
-// routes
-// const authRoute = require('./routes/auth')
-// const productRoute = require('./routes/product');
-
 const {readdirSync} = require('fs')
 
-
 app.use(morgan('dev'))
-
-// app.use('/api',authRoute);
-// app.use('/api',productRoute);
 
 readdirSync('./routes').map((r) => app.use('/api', require('./routes/' + r)))
 
